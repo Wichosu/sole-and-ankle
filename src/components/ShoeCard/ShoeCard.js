@@ -31,10 +31,39 @@ const ShoeCard = ({
       ? 'new-release'
       : 'default'
 
+  const STYLES = {
+    'on-sale': {
+      '--bg-color': COLORS.primary,
+      '--display': 'block',
+    },
+    'new-release': {
+      '--bg-color': COLORS.secondary,
+      '--display': 'block',
+    },
+    'default': {
+      '--bg-color': 'transparent',
+      '--display': 'none'
+    }
+  }
+
+  let flagMessage = '';
+
+  switch (variant) {
+    case 'on-sale':
+      flagMessage = 'Sale';
+      break;
+    case 'new-release':
+      flagMessage = 'Just released!';
+      break;
+    default:
+      break;
+  }
+
   return (
     <Link href={`/shoe/${slug}`}>
       <Wrapper>
         <ImageWrapper>
+          <Flag style={STYLES[variant]}>{flagMessage}</Flag>
           <Image alt="" src={imageSrc} />
         </ImageWrapper>
         <Spacer size={12} />
@@ -55,13 +84,30 @@ const Link = styled.a`
   color: inherit;
 `;
 
-const Wrapper = styled.article``;
+const Wrapper = styled.article`
+  width: 300px;
+`;
 
 const ImageWrapper = styled.div`
   position: relative;
 `;
 
-const Image = styled.img``;
+const Flag = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: -4px;
+  background-color: var(--bg-color);
+  color: ${COLORS.white};
+  width: fit-content;
+  border-radius: 2px;
+  padding: 8px 10px;
+  font-weight: ${WEIGHTS['bold']};
+`
+
+const Image = styled.img`
+  width: 100%;
+`;
 
 const Row = styled.div`
   font-size: 1rem;
