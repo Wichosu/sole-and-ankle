@@ -42,7 +42,7 @@ const ShoeCard = ({
     },
     'default': {
       '--bg-color': 'transparent',
-      '--display': 'none'
+      '--display': 'none',
     }
   }
 
@@ -69,7 +69,15 @@ const ShoeCard = ({
         <Spacer size={12} />
         <Row>
           <Name>{name}</Name>
-          <Price>{formatPrice(price)}</Price>
+          <Price style={{
+            '--color': variant === 'on-sale' ? COLORS.gray[700] : 'black',
+            '--text-decoration': variant === 'on-sale' ? 'line-through' : 'none'
+          }}>
+            {formatPrice(price)}
+          </Price>
+          <SalePrice>
+            {typeof salePrice === 'number' ? formatPrice(salePrice) : ''}
+          </SalePrice>
         </Row>
         <Row>
           <ColorInfo>{pluralize('Color', numOfColors)}</ColorInfo>
@@ -110,7 +118,10 @@ const Image = styled.img`
 `;
 
 const Row = styled.div`
+  position: relative;
+  display: flex;
   font-size: 1rem;
+  justify-content: space-between;
 `;
 
 const Name = styled.h3`
@@ -118,13 +129,19 @@ const Name = styled.h3`
   color: ${COLORS.gray[900]};
 `;
 
-const Price = styled.span``;
+const Price = styled.span`
+  color: var(--color);
+  text-decoration: var(--text-decoration);
+`;
 
 const ColorInfo = styled.p`
   color: ${COLORS.gray[700]};
 `;
 
 const SalePrice = styled.span`
+  position: absolute;
+  bottom: -20px;
+  right: 0;
   font-weight: ${WEIGHTS.medium};
   color: ${COLORS.primary};
 `;
